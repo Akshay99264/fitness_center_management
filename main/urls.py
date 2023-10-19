@@ -8,7 +8,9 @@ urlpatterns=[
     path('faq',views.faq_list,name='faq'),
     path('enquiry',views.enquiry,name='enquiry'),
     path('gallery',views.gallery,name='gallery'),
-    path('gallerydetail/<int:id>',views.gallery_detail,name='gallery_detail')
+    path('gallerydetail/<int:id>',views.gallery_detail,name='gallery_detail'),
+    path('pricing',views.pricing,name='pricing')
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

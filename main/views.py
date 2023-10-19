@@ -41,3 +41,7 @@ def gallery_detail(request,id):
 	gallery_imgs=models.GalleryImage.objects.filter(gallery=gallery).order_by('-id')
 	return render(request, 'gallery_imgs.html',{'gallery_imgs':gallery_imgs,'gallery':gallery})
 
+#Subscription Plans
+def pricing(request):
+	pricing=models.SubPlan.objects.all()
+	return render(request, 'pricing.html',{'pricing':pricing})
