@@ -34,7 +34,7 @@ class SubPlanAdmin(admin.ModelAdmin):
 admin.site.register(models.SubPlan,SubPlanAdmin)
 
 class SubPlanFeatureAdmin(admin.ModelAdmin):
-	list_display=('title',)
+	list_display=('title','subplan')
 admin.site.register(models.SubPlanFeature,SubPlanFeatureAdmin)
 
 

@@ -44,4 +44,5 @@ def gallery_detail(request,id):
 #Subscription Plans
 def pricing(request):
 	pricing=models.SubPlan.objects.all()
-	return render(request, 'pricing.html',{'pricing':pricing})
+	dfeatures=models.SubPlanFeature.objects.distinct('title')
+	return render(request, 'pricing.html',{'plans':pricing,'dfeatures':dfeatures})
