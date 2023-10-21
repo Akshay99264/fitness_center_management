@@ -46,3 +46,14 @@ def pricing(request):
 	pricing=models.SubPlan.objects.all()
 	dfeatures=models.SubPlanFeature.objects.distinct('title')
 	return render(request, 'pricing.html',{'plans':pricing,'dfeatures':dfeatures})
+
+def signup(request):
+	msg=None
+	if request.method=='POST':
+		form=forms.SignUp(request.POST)
+		if form.is_valid():
+			form.save()
+			msg='Thank you for register.'
+	form=forms.SignUp
+	return render(request, 'registration/signup.html',{'form':form,'msg':msg})
+
