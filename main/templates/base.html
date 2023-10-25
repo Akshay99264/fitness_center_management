@@ -54,8 +54,8 @@
 							<li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
 							{% endif %}
 							{% else %}
-							<li><a class="dropdown-item" href="#">Dashboard</a></li>
-							<li><a class="dropdown-item" href="#">Profile</a></li>
+							<li><a class="dropdown-item" href="{% url 'user_dashboard' %}">Dashboard</a></li>
+							<li><a class="dropdown-item" href="{% url 'update_profile' %}">Profile</a></li>
 							<li><a class="dropdown-item" href="#">Settings</a></li>
 							<li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
 							{% endif %}

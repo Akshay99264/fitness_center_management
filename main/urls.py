@@ -11,6 +11,9 @@ urlpatterns=[
     path('gallerydetail/<int:id>',views.gallery_detail,name='gallery_detail'),
     path('pricing',views.pricing,name='pricing'),
     path('accounts/signup',views.signup,name='signup'),
+    # User Dashboard implementations starts here
+    path('user-dashboard',views.user_dashboard,name='user_dashboard'),
+    path('update-profile',views.update_profile,name='update_profile'),
 ]
 
 if settings.DEBUG:

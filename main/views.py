@@ -57,3 +57,18 @@ def signup(request):
 	form=forms.SignUp
 	return render(request, 'registration/signup.html',{'form':form,'msg':msg})
 
+
+# User Dashboard implementation starts here
+def user_dashboard(request):
+	return render(request,'user/dashboard.html')
+
+# Edit form
+def update_profile(request):
+	msg=None
+	if request.method=='POST':
+		form=forms.ProfileForm(request.POST,instance=request.user)
+		if form.is_valid():
+			form.save()
+			msg='Data has been saved'
+	form=forms.ProfileForm(instance=request.user)
+	return render(request, 'user/update-profile.html',{'form':form,'msg':msg})
