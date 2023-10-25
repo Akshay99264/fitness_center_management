@@ -14,6 +14,9 @@ urlpatterns=[
     # User Dashboard implementations starts here
     path('user-dashboard',views.user_dashboard,name='user_dashboard'),
     path('update-profile',views.update_profile,name='update_profile'),
+    #Trainer Login
+    path('trainerlogin',views.trainerlogin,name='trainerlogin'),
+    path('trainerlogout',views.trainerlogout,name='trainerlogout'),
 ]
 
 if settings.DEBUG:

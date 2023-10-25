@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from . import models
 from . import forms
 # Create your views here.
@@ -72,3 +72,24 @@ def update_profile(request):
 			msg='Data has been saved'
 	form=forms.ProfileForm(instance=request.user)
 	return render(request, 'user/update-profile.html',{'form':form,'msg':msg})
+
+def trainerlogin(request):
+	msg=''
+	if request.method=='POST':
+		username=request.POST['username']
+		password=request.POST['password']
+		trainer=models.Trainer.objects.filter(username=username,password=password).count()
+		if trainer > 0:
+			trainer=models.Trainer.objects.filter(username=username,password=password).first()
+			request.session['trainerLogin']=True
+			request.session['trainerid']=trainer.id
+			return redirect('/trainer_dashboard')
+		else:
+			msg='Invalid Credentials!!'
+	form=forms.TrainerLoginForm
+	return render(request, 'trainer/login.html',{'form':form,'msg':msg})
+
+# TrainerLogout
+def trainerlogout(request):
+	del request.session['trainerLogin']
+	return redirect('/trainerlogin')
