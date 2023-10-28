@@ -17,6 +17,10 @@ urlpatterns=[
     #Trainer Login
     path('trainerlogin',views.trainerlogin,name='trainerlogin'),
     path('trainerlogout',views.trainerlogout,name='trainerlogout'),
+    #Notifications
+    path('notification',views.notification,name='notification'),
+    path('get_notification',views.get_notification,name='get_notification'),
+    path('mark_read_notif',views.mark_read_notif,name='mark_read_notif'),
 ]
 
 if settings.DEBUG:
