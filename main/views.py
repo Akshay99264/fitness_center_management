@@ -62,7 +62,32 @@ def signup(request):
 
 # User Dashboard implementation starts here
 def user_dashboard(request):
-	return render(request,'user/dashboard.html')
+	my_trainer=models.AssignSubscriber.objects.get(user=request.user)
+	current_plan=models.Subscription.objects.get(user=request.user)
+	#enddate=current_plan.reg_date+timedelta(days=current_plan.plan.validity_days)
+
+	# Notification
+	data=models.Notify.objects.all().order_by('-id')
+	notifStatus=False
+	jsonData=[]
+	totalUnread=0
+	for d in data:
+		try:
+			notifStatusData=models.NotifUserStatus.objects.get(user=request.user,notif=d)
+			if notifStatusData:
+				notifStatus=True
+		except models.NotifUserStatus.DoesNotExist:
+			notifStatus=False
+		if not notifStatus:
+			totalUnread=totalUnread+1
+
+	return render(request, 'user/dashboard.html',{
+		'current_plan':current_plan,
+		'my_trainer':my_trainer,
+		'total_unread':totalUnread,
+		#'enddate':enddate
+	})
+
 
 # Edit form
 def update_profile(request):

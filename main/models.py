@@ -165,3 +165,11 @@ class NotifUserStatus(models.Model):
 
 	class Meta:
 		verbose_name_plural='Notification Status'
+
+# Assign Subscriber to trainer
+class AssignSubscriber(models.Model):
+	user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+	trainer=models.ForeignKey(Trainer, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return str(self.user)
