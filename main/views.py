@@ -3,6 +3,8 @@ from django.core import serializers #using this we serialize our model data into
 from django.http import JsonResponse
 from . import models
 from . import forms
+
+from datetime import timedelta
 # Create your views here.
 def home(request):
 	banners=models.Banners.objects.all()
@@ -64,7 +66,7 @@ def signup(request):
 def user_dashboard(request):
 	my_trainer=models.AssignSubscriber.objects.get(user=request.user)
 	current_plan=models.Subscription.objects.get(user=request.user)
-	#enddate=current_plan.reg_date+timedelta(days=current_plan.plan.validity_days)
+	enddate=current_plan.register_date+timedelta(days=current_plan.plan.validity_days)
 
 	# Notification
 	data=models.Notify.objects.all().order_by('-id')
@@ -85,7 +87,7 @@ def user_dashboard(request):
 		'current_plan':current_plan,
 		'my_trainer':my_trainer,
 		'total_unread':totalUnread,
-		#'enddate':enddate
+		'enddate':enddate
 	})
 
 
