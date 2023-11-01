@@ -75,7 +75,7 @@ def user_dashboard(request):
 	totalUnread=0
 	for d in data:
 		try:
-			notifStatusData=models.NotifUserStatus.objects.get(user=request.user,notif=d)
+			notifStatusData=models.NotifUserStatus.objects.filter(user=request.user,notif=d).first()
 			if notifStatusData:
 				notifStatus=True
 		except models.NotifUserStatus.DoesNotExist:
@@ -122,6 +122,23 @@ def trainerlogin(request):
 def trainerlogout(request):
 	del request.session['trainerLogin']
 	return redirect('/trainerlogin')
+
+# Trainer Dashboard
+def trainer_dashboard(request):
+	return render(request,'trainer/dashboard.html')
+
+# Trainer Profile
+def trainer_profile(request):
+	t_id=request.session['trainerid']
+	trainer=models.Trainer.objects.get(pk=t_id)
+	msg=None
+	if request.method=='POST':
+		form=forms.TrainerProfileForm(request.POST,request.FILES,instance=trainer)
+		if form.is_valid():
+			form.save()
+			msg='Profile has been updated'
+	form=forms.TrainerProfileForm(instance=trainer)
+	return render(request, 'trainer/profile.html',{'form':form,'msg':msg})
 
 #Notifications
 def notification(request):

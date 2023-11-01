@@ -17,6 +17,8 @@ urlpatterns=[
     #Trainer Login
     path('trainerlogin',views.trainerlogin,name='trainerlogin'),
     path('trainerlogout',views.trainerlogout,name='trainerlogout'),
+    path('trainer_dashboard',views.trainer_dashboard,name='trainer_dashboard'),
+    path('trainer_profile',views.trainer_profile,name='trainer_profile'),
     #Notifications
     path('notification',views.notification,name='notification'),
     path('get_notification',views.get_notification,name='get_notification'),
