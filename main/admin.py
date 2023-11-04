@@ -73,3 +73,11 @@ class TrainerSalaryAdmin(admin.ModelAdmin):
 	list_display=('trainer','amt','amt_date')
 admin.site.register(models.TrainerSalary,TrainerSalaryAdmin)
 
+class TrainerNotificationAdmin(admin.ModelAdmin):
+	list_display=('notif_msg',)
+admin.site.register(models.TrainerNotification,TrainerNotificationAdmin)
+
+class TrainerMsgAdmin(admin.ModelAdmin):
+	list_display=('user','trainer','message')
+admin.site.register(models.TrainerMsg,TrainerMsgAdmin)
+

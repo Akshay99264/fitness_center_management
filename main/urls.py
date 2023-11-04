@@ -21,11 +21,16 @@ urlpatterns=[
     path('trainer_profile',views.trainer_profile,name='trainer_profile'),
     path('trainer_subscribers',views.trainer_subscribers,name='trainer_subscribers'),
     path('trainer_payments',views.trainer_payments,name='trainer_payments'),
+    path('trainer_changePassword',views.trainer_changePassword,name='trainer_changePassword'),
+    path('trainer_notifs',views.trainer_notifs,name='trainer_notifs'),
     #Notifications
     path('notification',views.notification,name='notification'),
     path('get_notification',views.get_notification,name='get_notification'),
     path('mark_read_notif',views.mark_read_notif,name='mark_read_notif'),
+    # Messages
+	path('messages',views.trainer_msgs,name='messages'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
