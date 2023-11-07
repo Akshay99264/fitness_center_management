@@ -30,13 +30,13 @@
 						<a class="nav-link" aria-current="page" href="./">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="{% url 'gallery' %}">Gallery</a>
+						<a class="nav-link" aria-current="page" href="{% url 'gallery' %}">Showcase</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
+						<a class="nav-link" href="{% url 'pricing' %}">PriceInfo</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'enquiry' %}">Enquiry</a>
+						<a class="nav-link" href="{% url 'enquiry' %}">Query</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
@@ -74,11 +74,11 @@
 	{% endblock %}
 	<!------Footer Start----->
 	<footer class="container py-5">
-		<p class="float-end"><a href="#">Back to top</a></p>
-		<p>© 2023–2027 XtremeFit Arena, Inc. ·
+		<p class="float-end"><a href="#"><i class="bi bi-arrow-up"></i></a></p>
+		<p>
 			<a href="{% url 'pagedetail' 2 %}">Privacy</a> ·
 			<a href="{% url 'pagedetail' 3 %}">Terms</a> .
-			<a href="{% url 'faq' %}">FAQ</a> .
+			<a href="{% url 'faq' %}">Q&A</a> .
 			<a href="#">Contact Us</a>
 		</p>
 	</footer>

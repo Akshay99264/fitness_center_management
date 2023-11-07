@@ -15,12 +15,12 @@ def home(request):
 #PageDetail
 def page_detail(request,id):
 	page=models.Page.objects.get(id=id)
-	return render(request, 'page.html',{'page':page})
+	return render(request, 'pInfo.html',{'page':page})
 
 #FAQ
 def faq_list(request):
 	faq=models.Faq.objects.all()
-	return render(request, 'faq.html',{'faqs':faq})
+	return render(request, 'common_queries.html',{'faqs':faq})
 
 #Enquiry
 def enquiry(request):
@@ -31,25 +31,25 @@ def enquiry(request):
             form.save()
             msg='Data has been saved'
     form=forms.EnquiryForm
-    return render(request, 'enquiry.html',{'form':form,'msg':msg})
+    return render(request, 'query.html',{'form':form,'msg':msg})
 
 
 # show galleries
 def gallery(request):
 	gallery=models.Gallery.objects.all().order_by('-id')
-	return render(request, 'gallery.html',{'gallerys':gallery})
+	return render(request, 'showcase.html',{'gallerys':gallery})
 
 # Show gallery photos
 def gallery_detail(request,id):
 	gallery=models.Gallery.objects.get(id=id)
 	gallery_imgs=models.GalleryImage.objects.filter(gallery=gallery).order_by('-id')
-	return render(request, 'gallery_imgs.html',{'gallery_imgs':gallery_imgs,'gallery':gallery})
+	return render(request, 'showcase_imgs.html',{'gallery_imgs':gallery_imgs,'gallery':gallery})
 
 #Subscription Plans
 def pricing(request):
 	pricing=models.SubPlan.objects.all()
 	dfeatures=models.SubPlanFeature.objects.distinct('title')
-	return render(request, 'pricing.html',{'plans':pricing,'dfeatures':dfeatures})
+	return render(request, 'costs.html',{'plans':pricing,'dfeatures':dfeatures})
 
 def signup(request):
 	msg=None
@@ -116,7 +116,7 @@ def trainerlogin(request):
 		else:
 			msg='Invalid Credentials!!'
 	form=forms.TrainerLoginForm
-	return render(request, 'trainer/login.html',{'form':form,'msg':msg})
+	return render(request, 'trainer/trainer_login.html',{'form':form,'msg':msg})
 
 # TrainerLogout
 def trainerlogout(request):
@@ -125,7 +125,7 @@ def trainerlogout(request):
 
 # Trainer Dashboard
 def trainer_dashboard(request):
-	return render(request,'trainer/dashboard.html')
+	return render(request,'trainer/trainer_dashboard.html')
 
 # Trainer Profile
 def trainer_profile(request):
