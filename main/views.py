@@ -7,65 +7,65 @@ from . import forms
 from datetime import timedelta
 # Create your views here.
 def home(request):
-	banners=models.Banners.objects.all()
-	services=models.Service.objects.all()[:3]
-	gimgs=models.GalleryImage.objects.all().order_by('-id')[:9]
-	return render(request, 'home.html',{'banners':banners,'services':services,'gimgs':gimgs})
+	slides=models.SlideShow.objects.all()
+	offerings=models.ourOfferings.objects.all()[:3]
+	eventimgs=models.EventImages.objects.all().order_by('-id')[:9]
+	return render(request, 'home.html',{'slides':slides,'offerings':offerings,'eventimgs':eventimgs})
 
 #PageDetail
-def page_detail(request,id):
+def pDetail(request,id):
 	page=models.Page.objects.get(id=id)
 	return render(request, 'pInfo.html',{'page':page})
 
 #FAQ
-def faq_list(request):
-	faq=models.Faq.objects.all()
-	return render(request, 'common_queries.html',{'faqs':faq})
+def commonQuestions(request):
+	qna=models.Faq.objects.all()
+	return render(request, 'common_queries.html',{'qnas':qna})
 
 #Enquiry
-def enquiry(request):
+def query(request):
     msg=''
     if request.method=='POST':
-        form=forms.EnquiryForm(request.POST)
-        if form.is_valid():
-            form.save()
-            msg='Data has been saved'
-    form=forms.EnquiryForm
-    return render(request, 'query.html',{'form':form,'msg':msg})
+        q_form=forms.queryForm(request.POST)
+        if q_form.is_valid():
+            q_form.save()
+            msg='Query has been sent'
+    q_form=forms.queryForm
+    return render(request, 'query.html',{'form':q_form,'msg':msg})
 
 
-# show galleries
-def gallery(request):
-	gallery=models.Gallery.objects.all().order_by('-id')
-	return render(request, 'showcase.html',{'gallerys':gallery})
+# showcase memories
+def showcase(request):
+	showcase=models.FunEvents.objects.all().order_by('-id')
+	return render(request, 'showcase.html',{'events':showcase})
 
-# Show gallery photos
-def gallery_detail(request,id):
-	gallery=models.Gallery.objects.get(id=id)
-	gallery_imgs=models.GalleryImage.objects.filter(gallery=gallery).order_by('-id')
-	return render(request, 'showcase_imgs.html',{'gallery_imgs':gallery_imgs,'gallery':gallery})
+# display photos
+def showcase_data(request,id):
+	event=models.FunEvents.objects.get(id=id)
+	event_imgs=models.EventImages.objects.filter(event=event).order_by('-id')
+	return render(request, 'showcase_imgs.html',{'event_imgs':event_imgs,'event':event})
 
 #Subscription Plans
-def pricing(request):
-	pricing=models.SubPlan.objects.all()
+def price(request):
+	price=models.SubPlan.objects.all()
 	dfeatures=models.SubPlanFeature.objects.distinct('title')
-	return render(request, 'costs.html',{'plans':pricing,'dfeatures':dfeatures})
+	return render(request, 'costs.html',{'plans':price,'dfeatures':dfeatures})
 
-def signup(request):
+def newUser(request):
 	msg=None
 	if request.method=='POST':
-		form=forms.SignUp(request.POST)
-		if form.is_valid():
-			form.save()
+		newForm=forms.newUser(request.POST)
+		if newForm.is_valid():
+			newForm.save()
 			msg='Thank you for register.'
-	form=forms.SignUp
-	return render(request, 'registration/signup.html',{'form':form,'msg':msg})
+	newForm=forms.newUser
+	return render(request, 'registration/newUser.html',{'form':newForm,'msg':msg})
 
 
 # User Dashboard implementation starts here
 def user_dashboard(request):
 	my_trainer=models.AssignSubscriber.objects.get(user=request.user)
-	current_plan=models.Subscription.objects.get(user=request.user)
+	current_plan=models.Members.objects.get(user=request.user)
 	enddate=current_plan.register_date+timedelta(days=current_plan.plan.validity_days)
 
 	# Notification
@@ -188,8 +188,15 @@ def trainer_payments(request):
 	trainer_pays=models.TrainerSalary.objects.filter(trainer=trainer).order_by('-id')
 	return render(request, 'trainer/trainer_payments.html',{'trainer_pays':trainer_pays})
 
-# Change password for Trainer
-def trainer_changePassword(request):
+
+# Trainer Notification
+def trainer_notifications(request):
+	data=models.TrainerNotification.objects.all().order_by('-id')
+	return render(request,'trainer/notification.html',{'notifs':data})
+
+
+# password change trainer
+def passwordChange_trainer(request):
 	msg=None
 	if request.method=='POST':
 		new_password=request.POST['new_password']
@@ -198,14 +205,10 @@ def trainer_changePassword(request):
 			del request.session['trainerLogin']
 			return redirect('/trainerlogin')
 		else:
-			msg='Something is wrong!!'
-	form=forms.TrainerChangePassword
-	return render(request, 'trainer/trainer_changePassword.html',{'form':form})
+			msg='Error while changing password'
+	form=forms.passwordChangeTrainer
+	return render(request, 'trainer/chagePassword_trainer.html',{'form':form})
 
-# Trainer Notification
-def trainer_notifs(request):
-	data=models.TrainerNotification.objects.all().order_by('-id')
-	return render(request,'trainer/notification.html',{'notifs':data})
 
 # Trainer Messages
 def trainer_msgs(request):

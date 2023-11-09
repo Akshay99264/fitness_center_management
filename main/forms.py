@@ -3,12 +3,12 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from . import models
 
-class EnquiryForm(forms.ModelForm):
+class queryForm(forms.ModelForm):
     class Meta:
-        model=models.Enquiry
-        fields=('full_name','email','detail')
+        model=models.Queries
+        fields=('Name','email','description')
 
-class SignUp(UserCreationForm):
+class newUser(UserCreationForm):
 	class Meta:
 		model=User
 		fields=('first_name','last_name','email','username','password1','password2')
@@ -18,10 +18,18 @@ class ProfileForm(UserChangeForm):
 		model=User
 		fields=('first_name','last_name','email','username')
 
+#class TrainerLoginForm(forms.ModelForm):
+#	class Meta:
+#		model=models.Trainer
+#		fields=('username','password')
+#
 class TrainerLoginForm(forms.ModelForm):
-	class Meta:
-		model=models.Trainer
-		fields=('username','password')
+    class Meta:
+        model =models.Trainer
+        widgets = {
+            "password": forms.PasswordInput(),
+        }
+        fields =("username", "password")
 
 class TrainerProfileForm(forms.ModelForm):
 	class Meta:
@@ -29,5 +37,5 @@ class TrainerProfileForm(forms.ModelForm):
 		fields=('full_name','mobile','address','detail','img')
 
 
-class TrainerChangePassword(forms.Form):
+class passwordChangeTrainer(forms.Form):
 	new_password=forms.CharField(max_length=50,required=True)

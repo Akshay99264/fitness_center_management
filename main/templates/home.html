@@ -6,9 +6,9 @@
   <!-- banner Start -->
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      {% for banner in banners %}
+      {% for slide in slides %}
       <div class="carousel-item {% if forloop.counter == 1 %} active {% endif %}">
-        <img src="{{banner.img.url}}" class="d-block w-100" alt="Slide 1">
+        <img src="{{slide.img.url}}" class="d-block w-100" alt="Slide 1">
       </div>
       {% endfor %}
     </div>
@@ -22,17 +22,17 @@
     </button>
   </div>
   <!-- End Banner -->
-  <!-- Services -->
+  <!-- offerings -->
   <section class="container my-4">
-    <h1 class="text-center mb-4 section-heading">Services</h1>
+    <h1 class="text-center mb-4 section-heading">Our Offerings</h1>
     <div class="row">
-      {% for service in services %}
+      {% for offering in offerings %}
       <div class="col-md-4">
         <div class="card">
-          <img src="{{service.img.url}}" class="card-img-top" alt="...">
+          <img src="{{offering.img.url}}" class="card-img-top" alt="...">
           <div class="card-body">
-            <h3 class="card-title">{{service.title}}</h3>
-            <p class="card-text">{{service.detail}}</p>
+            <h3 class="card-title">{{offering.title}}</h3>
+            <p class="card-text">{{offering.detail}}</p>
             <a href="#" class="btn btn-primary">Read More</a>
           </div>
         </div>
@@ -58,15 +58,15 @@
             and strength training equipment to cater to your fitness needs. But what truly sets us apart is the sense of
             community you'll find here. We're not just a gym; we're a close-knit family of individuals with similar
             aspirations and a shared commitment to living a healthier life. </p>
-          <p><a href="{% url 'pagedetail' 1 %}" class="btn btn-info text-white">Read More</a></p>
+          <p><a href="{% url 'pDetail' 1 %}" class="btn btn-info text-white">Read More</a></p>
         </div>
         <div class="col-md-6 offset-1">
-          <h1 class="mb-4 section-heading">Gallery <a href="#" class="float-end btn btn-info text-white mt-2">View
+          <h1 class="mb-4 section-heading">Fun Events <a href="{% url 'showcase' %}" class="float-end btn btn-info text-white mt-2">View
               All</a></h1>
           <div class="gallery">
-            {% for gimg in gimgs %}
-            <a href="{{gimg.img.url}}" data-lightbox="gallery"><img src="{{gimg.img.url}}" width="155"
-                class="img-thumbnail" alt="{{gimg.alt_text}}"></a>
+            {% for eventimg in eventimgs %}
+            <a href="{{eventimg.image.url}}" data-lightbox="gallery"><img src="{{eventimg.image.url}}" width="155"
+                class="img-thumbnail" alt="{{eventimg.detail}}"></a>
             {% endfor %}
           </div>
         </div>

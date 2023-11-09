@@ -1,33 +1,33 @@
 from django.contrib import admin
 from . import models
 
-class BannerAdmin(admin.ModelAdmin):
+class SlideShowAdmin(admin.ModelAdmin):
     list_display=('alt_text','image_tag')
-admin.site.register(models.Banners,BannerAdmin)
+admin.site.register(models.SlideShow,SlideShowAdmin)
 
-class ServiceAdmin(admin.ModelAdmin):
+class ourOfferingsAdmin(admin.ModelAdmin):
     list_display=('title','image_tag')
-admin.site.register(models.Service,ServiceAdmin)
+admin.site.register(models.ourOfferings,ourOfferingsAdmin)
  
 class PageAdmin(admin.ModelAdmin):
-	list_display=('title',)
+	list_display=('label',)
 admin.site.register(models.Page,PageAdmin)
 
 class FaqAdmin(admin.ModelAdmin):
-	list_display=('quest',)
+	list_display=('question',)
 admin.site.register(models.Faq,FaqAdmin)
 
-class EnquiryAdmin(admin.ModelAdmin):
-	list_display=('full_name','email','detail','send_time')
-admin.site.register(models.Enquiry,EnquiryAdmin)
+class QueriesAdmin(admin.ModelAdmin):
+	list_display=('Name','email','description','time')
+admin.site.register(models.Queries,QueriesAdmin)
 
-class GalleryAdmin(admin.ModelAdmin):
-	list_display=('title','image_tag')
-admin.site.register(models.Gallery,GalleryAdmin)
+class FunEventsAdmin(admin.ModelAdmin):
+	list_display=('label','image_tag')
+admin.site.register(models.FunEvents,FunEventsAdmin)
 
-class GalleryImageAdmin(admin.ModelAdmin):
-	list_display=('alt_text','image_tag')
-admin.site.register(models.GalleryImage,GalleryImageAdmin)
+class EventImagesAdmin(admin.ModelAdmin):
+	list_display=('detail','image_tag')
+admin.site.register(models.EventImages,EventImagesAdmin)
 
 class SubPlanAdmin(admin.ModelAdmin):
 	list_editable=('highlight_status','max_member')
@@ -42,9 +42,9 @@ class SubscriberAdmin(admin.ModelAdmin):
 	list_display=('user','image_tag','mobile')
 admin.site.register(models.Subscriber,SubscriberAdmin)
 
-class SubscriptionAdmin(admin.ModelAdmin):
+class MembersAdmin(admin.ModelAdmin):
 	list_display=('user','plan','register_date','price')
-admin.site.register(models.Subscription,SubscriptionAdmin)
+admin.site.register(models.Members,MembersAdmin)
 
 
 class TrainerAdmin(admin.ModelAdmin):

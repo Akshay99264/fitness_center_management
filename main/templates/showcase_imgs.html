@@ -4,12 +4,12 @@
     <main>
 		<!-- Services -->
 		<section class="container my-4">
-			<h1 class="text-center mb-4 section-heading border-bottom pb-2">{{gallery.title}} Images</h1>
+			<h1 class="text-center mb-4 section-heading border-bottom pb-2">{{event.label}} Images</h1>
 			<div class="row">
-				{% for gimg in gallery_imgs %}
+				{% for eventimg in event_imgs %}
 				<div class="col-md-4 mb-4">
 					<div class="card">
-					  <img src="{{gimg.img.url}}" class="card-img-top" alt="{{gimg.alt_text}}">
+					  <img src="{{eventimg.image.url}}" class="card-img-top" alt="{{eventimg.detail}}">
 					</div>
 				</div>
 				{% endfor %}

@@ -3,14 +3,10 @@
 <html lang="en">
 
 <head>
-	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Bootstrap CSS -->
 	<link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" />
-	<!-- Bootstrap Icons -->
 	<link href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}" rel="stylesheet" />
-	<!-- Include jquery -->
 	<script type="text/javascript" src="{% static 'jquery-3.6.0.min.js' %}"></script>
 	<title>Home - XtremeFit Arena</title>
 </head>
@@ -27,16 +23,16 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="./">Home</a>
+						<a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="{% url 'gallery' %}">Showcase</a>
+						<a class="nav-link" aria-current="page" href="{% url 'showcase' %}">Showcase</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'pricing' %}">PriceInfo</a>
+						<a class="nav-link" href="{% url 'price' %}">PriceInfo</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{% url 'enquiry' %}">Query</a>
+						<a class="nav-link" href="{% url 'query' %}">Query</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
@@ -49,9 +45,9 @@
 								<li><a class="dropdown-item" href="{% url 'trainer_dashboard' %}">Dashboard</a></li>
 								<li><a class="dropdown-item" href="{% url 'trainerlogout' %}">Logout</a></li>
 								{% else %}
-								<li><a class="dropdown-item" href="{% url 'trainerlogin' %}">Trainer Login</a></li>
-								<li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
+								<li><a class="dropdown-item" href="{% url 'newUser' %}">Register</a></li>
 								<li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+								<li><a class="dropdown-item" href="{% url 'trainerlogin' %}">Trainer Login</a></li>
 								{% endif %}
 							{% else %}
 							<li><a class="dropdown-item" href="{% url 'user_dashboard' %}">Dashboard</a></li>
@@ -76,9 +72,9 @@
 	<footer class="container py-5">
 		<p class="float-end"><a href="#"><i class="bi bi-arrow-up"></i></a></p>
 		<p>
-			<a href="{% url 'pagedetail' 2 %}">Privacy</a> ·
-			<a href="{% url 'pagedetail' 3 %}">Terms</a> .
-			<a href="{% url 'faq' %}">Q&A</a> .
+			<a href="{% url 'pDetail' 2 %}">Privacy</a> ·
+			<a href="{% url 'pDetail' 3 %}">Terms</a> .
+			<a href="{% url 'commonQuestions' %}">Q&A</a> .
 			<a href="#">Contact Us</a>
 		</p>
 	</footer>

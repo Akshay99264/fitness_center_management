@@ -6,13 +6,13 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-# Banners
-class Banners(models.Model):
-	img=models.ImageField(upload_to="banners/")
+# slideShow
+class SlideShow(models.Model):
+	img=models.ImageField(upload_to="slideShow/")
 	alt_text=models.CharField(max_length=150)
 
 	class Meta:
-		verbose_name_plural='Banners'
+		verbose_name_plural='SlideShow'
 
 	def __str__(self):
 		return self.alt_text
@@ -21,66 +21,80 @@ class Banners(models.Model):
 		return mark_safe('<img src="%s" width="80" />' % (self.img.url))
 
 # Create your models here.
-class Service(models.Model):
-    title=models.CharField(max_length=150)
-    detail=models.TextField()
-    img=models.ImageField(upload_to="services/",null=True)
-
-    def __str__(self):
-        return self.title
-    
-    def image_tag(self):
-        return mark_safe('<img src="%s" width="80" />' % (self.img.url))
-
-#pages models
-class Page(models.Model):
-	title=models.CharField(max_length=200)
-	detail=models.TextField()
-
-	def __str__(self):
-		return self.title
-
-#FAQ
-class Faq(models.Model):
-	quest=models.TextField()
-	ans=models.TextField()
-
-	def __str__(self):
-		return self.quest
-
-#Enquiry Model
-class Enquiry(models.Model):
-	full_name=models.CharField(max_length=150)
-	email=models.CharField(max_length=150)
-	detail=models.TextField()
-	send_time=models.DateTimeField(auto_now_add=True)
-	
-	def __str__(self):
-		return self.full_name
-
-#gallery model
-class Gallery(models.Model):
+class ourOfferings(models.Model):
 	title=models.CharField(max_length=150)
 	detail=models.TextField()
-	img=models.ImageField(upload_to="gallery/",null=True)
-
-	def __str__(self):
-		return self.title
-
-	def image_tag(self):
-		return mark_safe('<img src="%s" width="80" />' % (self.img.url))
-
-#gallery image
-class GalleryImage(models.Model):
-	gallery=models.ForeignKey(Gallery,on_delete=models.CASCADE,null=True)
-	alt_text=models.CharField(max_length=150)
-	img=models.ImageField(upload_to="gallery_imgs/",null=True)
+	img=models.ImageField(upload_to="ourOfferings/",null=True)
+	
+	class Meta:
+		verbose_name_plural='ourOfferings'
 
 	def __str__(self):
 		return self.alt_text
 
 	def image_tag(self):
 		return mark_safe('<img src="%s" width="80" />' % (self.img.url))
+
+
+
+#pages models
+class Page(models.Model):
+	label=models.CharField(max_length=200)
+	description=models.TextField()
+
+	def __str__(self):
+		return self.label
+
+#FAQ
+class Faq(models.Model):
+	question=models.TextField()
+	answer=models.TextField()
+
+	def __str__(self):
+		return self.question
+
+#query Model
+class Queries(models.Model):
+	Name=models.CharField(max_length=150)
+	email=models.CharField(max_length=150)
+	description=models.TextField()
+	time=models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name_plural='Queries'
+	
+	def __str__(self):
+		return self.Name
+
+#gallery model
+class FunEvents(models.Model):
+	label=models.CharField(max_length=150)
+	description=models.TextField()
+	image=models.ImageField(upload_to="funEvents/",null=True)
+
+	class Meta:
+		verbose_name_plural='FunEvents'
+
+	def __str__(self):
+		return self.label
+
+	def image_tag(self):
+		return mark_safe('<img src="%s" width="80" />' % (self.image.url))
+
+#gallery image
+class EventImages(models.Model):
+	event=models.ForeignKey(FunEvents,on_delete=models.CASCADE,null=True)
+	detail=models.CharField(max_length=150)
+	image=models.ImageField(upload_to="event_images/",null=True)
+
+	class Meta:
+		verbose_name_plural='EventImages'
+
+	def __str__(self):
+		return self.detail
+
+	def image_tag(self):
+		return mark_safe('<img src="%s" width="80" />' % (self.image.url))
 
 
 # Subscription plan
@@ -126,7 +140,7 @@ def create_subscriber(sender,instance,created,**kwrags):
 		Subscriber.objects.create(user=instance)
 
 # Subscription
-class Subscription(models.Model):
+class Members(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 	plan=models.ForeignKey(SubPlan, on_delete=models.CASCADE,null=True)
 	price=models.CharField(max_length=50)
