@@ -13,7 +13,7 @@
 
 <body>
 	<!-- Header -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-warning">
+	<nav class="navbar navbar-expand-lg navbar-light bg-info" >
 		<div class="container">
 			<a class="navbar-brand" href="{% url 'home' %}">XtremeFit Arena</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -75,7 +75,7 @@
 			<a href="{% url 'pDetail' 2 %}">Privacy</a> ·
 			<a href="{% url 'pDetail' 3 %}">Terms</a> .
 			<a href="{% url 'commonQuestions' %}">Q&A</a> .
-			<a href="#">Contact Us</a>
+			<a href="{% url 'reach_us' %}">Contact Us</a>
 		</p>
 	</footer>
 

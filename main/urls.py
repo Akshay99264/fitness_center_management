@@ -11,6 +11,7 @@ urlpatterns=[
     path('showcase_data/<int:id>',views.showcase_data,name='showcase_data'),
     path('price',views.price,name='price'),
     path('accounts/newUser',views.newUser,name='newUser'),
+    path('reach_us',views.reach_us,name='reach_us'),
     # User Dashboard implementations starts here
     path('user-dashboard',views.user_dashboard,name='user_dashboard'),
     path('update-profile',views.update_profile,name='update_profile'),
@@ -29,6 +30,9 @@ urlpatterns=[
     path('mark_read_notif',views.mark_read_notif,name='mark_read_notif'),
     # Messages
 	path('messages',views.trainer_msgs,name='messages'),
+    path('user_messages',views.user_msgs,name='user_messages'),
+    path('updateToUser',views.updateToUser,name='updateToUser'),
+    path('updateToTrainer',views.updateToTrainer,name='updateToTrainer'),
 ]
 
 if settings.DEBUG:

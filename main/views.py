@@ -5,24 +5,23 @@ from . import models
 from . import forms
 
 from datetime import timedelta
-# Create your views here.
 def home(request):
 	slides=models.SlideShow.objects.all()
 	offerings=models.ourOfferings.objects.all()[:3]
 	eventimgs=models.EventImages.objects.all().order_by('-id')[:9]
 	return render(request, 'home.html',{'slides':slides,'offerings':offerings,'eventimgs':eventimgs})
 
-#PageDetail
+# view for PageDetail
 def pDetail(request,id):
 	page=models.Page.objects.get(id=id)
 	return render(request, 'pInfo.html',{'page':page})
 
-#FAQ
+# view for Frequently asked questions
 def commonQuestions(request):
 	qna=models.Faq.objects.all()
 	return render(request, 'common_queries.html',{'qnas':qna})
 
-#Enquiry
+# view for query
 def query(request):
     msg=''
     if request.method=='POST':
@@ -34,18 +33,18 @@ def query(request):
     return render(request, 'query.html',{'form':q_form,'msg':msg})
 
 
-# showcase memories
+# view for showcase memories
 def showcase(request):
 	showcase=models.FunEvents.objects.all().order_by('-id')
 	return render(request, 'showcase.html',{'events':showcase})
 
-# display photos
+# view for display photos
 def showcase_data(request,id):
 	event=models.FunEvents.objects.get(id=id)
 	event_imgs=models.EventImages.objects.filter(event=event).order_by('-id')
 	return render(request, 'showcase_imgs.html',{'event_imgs':event_imgs,'event':event})
 
-#Subscription Plans
+# view for Subscription Plans
 def price(request):
 	price=models.SubPlan.objects.all()
 	dfeatures=models.SubPlanFeature.objects.distinct('title')
@@ -62,13 +61,13 @@ def newUser(request):
 	return render(request, 'registration/newUser.html',{'form':newForm,'msg':msg})
 
 
-# User Dashboard implementation starts here
+# view for  User Dashboard implementation starts here
 def user_dashboard(request):
 	my_trainer=models.AssignSubscriber.objects.get(user=request.user)
 	current_plan=models.Members.objects.get(user=request.user)
 	enddate=current_plan.register_date+timedelta(days=current_plan.plan.validity_days)
 
-	# Notification
+	# for  Notification
 	data=models.Notify.objects.all().order_by('-id')
 	notifStatus=False
 	jsonData=[]
@@ -90,8 +89,13 @@ def user_dashboard(request):
 		'enddate':enddate
 	})
 
+# view for user messages
+def user_msgs(request):
+	data=models.UserMsg.objects.all().order_by('-id')
+	return render(request, 'user/messages.html',{'msgs':data})
 
-# Edit form
+
+# view for  Edit form
 def update_profile(request):
 	msg=None
 	if request.method=='POST':
@@ -102,6 +106,7 @@ def update_profile(request):
 	form=forms.ProfileForm(instance=request.user)
 	return render(request, 'user/update-profile.html',{'form':form,'msg':msg})
 
+# view for trainer login page
 def trainerlogin(request):
 	msg=''
 	if request.method=='POST':
@@ -118,16 +123,16 @@ def trainerlogin(request):
 	form=forms.TrainerLoginForm
 	return render(request, 'trainer/trainer_login.html',{'form':form,'msg':msg})
 
-# TrainerLogout
+# view for  TrainerLogout
 def trainerlogout(request):
 	del request.session['trainerLogin']
 	return redirect('/trainerlogin')
 
-# Trainer Dashboard
+# view for  Trainer Dashboard
 def trainer_dashboard(request):
 	return render(request,'trainer/trainer_dashboard.html')
 
-# Trainer Profile
+# view for  Trainer Profile
 def trainer_profile(request):
 	t_id=request.session['trainerid']
 	trainer=models.Trainer.objects.get(pk=t_id)
@@ -138,14 +143,14 @@ def trainer_profile(request):
 			form.save()
 			msg='Profile has been updated'
 	form=forms.TrainerProfileForm(instance=trainer)
-	return render(request, 'trainer/profile.html',{'form':form,'msg':msg})
+	return render(request, 'trainer/update_profileData.html',{'form':form,'msg':msg})
 
-#Notifications
+# view for Notifications
 def notification(request):
 	data=models.Notify.objects.all().order_by('-id')
 	return render(request,'notification.html',{'data':data})
 
-#get All Notifications
+# view for get All Notifications
 def get_notification(request):
 	data=models.Notify.objects.all().order_by('-id')
 	notifStatus=False
@@ -165,10 +170,10 @@ def get_notification(request):
 				'notify_detail':d.notify_detail,
 				'notifStatus':notifStatus
 			})
-	# jsonData=serializers.serialize('json', data)
+	# view for  jsonData=serializers.serialize('json', data)
 	return JsonResponse({'data':jsonData,'totalUnread':totalUnread})
 
-# Mark Read By user
+# view for  Mark Read By user
 def mark_read_notif(request):
 	notif=request.GET['notif']
 	notif=models.Notify.objects.get(pk=notif)
@@ -176,26 +181,26 @@ def mark_read_notif(request):
 	models.NotifUserStatus.objects.create(notif=notif,user=user,status=True)
 	return JsonResponse({'bool':True})
 
-# Trainer Subscribers
+# view for  Trainer Subscribers
 def trainer_subscribers(request):
 	trainer=models.Trainer.objects.get(pk=request.session['trainerid'])
 	trainer_subs=models.AssignSubscriber.objects.filter(trainer=trainer).order_by('-id')
 	return render(request,'trainer/trainer_subscribers.html',{'trainer_subs':trainer_subs})
 
-# Trainer Payments
+# view for  Trainer Payments
 def trainer_payments(request):
 	trainer=models.Trainer.objects.get(pk=request.session['trainerid'])
 	trainer_pays=models.TrainerSalary.objects.filter(trainer=trainer).order_by('-id')
 	return render(request, 'trainer/trainer_payments.html',{'trainer_pays':trainer_pays})
 
 
-# Trainer Notification
+# view for  Trainer Notification
 def trainer_notifications(request):
 	data=models.TrainerNotification.objects.all().order_by('-id')
 	return render(request,'trainer/notification.html',{'notifs':data})
 
 
-# password change trainer
+# view for  password change trainer
 def passwordChange_trainer(request):
 	msg=None
 	if request.method=='POST':
@@ -210,7 +215,42 @@ def passwordChange_trainer(request):
 	return render(request, 'trainer/chagePassword_trainer.html',{'form':form})
 
 
-# Trainer Messages
+# view for  Trainer Messages
 def trainer_msgs(request):
 	data=models.TrainerMsg.objects.all().order_by('-id')
-	return render(request, 'trainer/msgs.html',{'msgs':data})
+	return render(request, 'trainer/messages.html',{'msgs':data})
+
+# view for  update user
+def updateToUser(request):
+	trainer=models.Trainer.objects.get(id=request.session['trainerid'])
+	message=''
+	if request.method=='POST':
+		form=forms.updateUserForm(request.POST)
+		if form.is_valid():
+			updateForm=form.save(commit=False)
+			updateForm.updateFromTrainer=trainer
+			updateForm.save()
+			message='update has been sent'
+		else:
+			message='Invalid update'
+	form=forms.updateUserForm	
+	return render(request,'updateToUser.html',{'form':form,'message':message})
+
+# view for  update trainer
+def updateToTrainer(request):
+	member=request.user
+	message=''
+	if request.method=='POST':
+		form=forms.updateTrainerForm(request.POST)
+		if form.is_valid():
+			updateForm=form.save(commit=False)
+			updateForm.updateFromUser=member
+			updateForm.save()
+			message='update has been sent'
+		else:
+			message='Invalid update'
+	form=forms.updateTrainerForm	
+	return render(request,'updateToTrainer.html',{'form':form,'message':message})
+
+def reach_us(request):
+	return render(request,'reach_us.html')

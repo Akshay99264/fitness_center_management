@@ -81,3 +81,12 @@ class TrainerMsgAdmin(admin.ModelAdmin):
 	list_display=('user','trainer','message')
 admin.site.register(models.TrainerMsg,TrainerMsgAdmin)
 
+class UserMsgAdmin(admin.ModelAdmin):
+	list_display=('trainer','user','message')
+admin.site.register(models.UserMsg,UserMsgAdmin)
+
+
+class userTrainerUpdateAdmin(admin.ModelAdmin):
+	list_display=('updateMsg','updateToTrainer','updateToUser','updateFromTrainer','updateFromUser')
+admin.site.register(models.userTrainerUpdate,userTrainerUpdateAdmin)
+

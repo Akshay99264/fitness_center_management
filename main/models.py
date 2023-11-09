@@ -118,6 +118,7 @@ class SubPlanFeature(models.Model):
 		return self.title
 
 
+
 # Subscriber
 class Subscriber(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
@@ -145,6 +146,9 @@ class Members(models.Model):
 	plan=models.ForeignKey(SubPlan, on_delete=models.CASCADE,null=True)
 	price=models.CharField(max_length=50)
 	register_date=models.DateField(auto_now_add=True,null=True)
+
+	class Meta:
+		verbose_name_plural='Members'
 
 #Trainer
 class Trainer(models.Model):
@@ -231,6 +235,10 @@ class TrainerSalary(models.Model):
 class TrainerNotification(models.Model):
 	notif_msg=models.TextField()
 
+	class Meta:
+		verbose_name_plural='TrainerNotification'
+
+
 	def __str__(self):
 		return str(self.notif_msg)
 
@@ -241,7 +249,7 @@ class NotifTrainerStatus(models.Model):
 	status=models.BooleanField(default=False)
 
 	class Meta:
-		verbose_name_plural='Trainer Notification Status'
+		verbose_name_plural='TrainerNotificationStatus'
 
 
 # SubscriberMsg
@@ -251,5 +259,22 @@ class TrainerMsg(models.Model):
 	message=models.TextField()
 
 	class Meta:
-		verbose_name_plural='Messages For Trainer'
+		verbose_name_plural='TrainerMessages'
 
+# SubscriberMsg
+class UserMsg(models.Model):
+	user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+	trainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True)
+	message=models.TextField()
+
+	class Meta:
+		verbose_name_plural='UserMessages'
+
+
+# send update
+class userTrainerUpdate(models.Model):
+	updateToTrainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True,related_name='updateToTrainer')
+	updateToUser=models.ForeignKey(User, on_delete=models.CASCADE,null=True,related_name='updateToUser')
+	updateFromTrainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True,related_name='updateFromTrainer',blank=True)
+	updateFromUser=models.ForeignKey(User, on_delete=models.CASCADE,null=True,related_name='updateFromUser',blank=True)
+	updateMsg=models.TextField()
