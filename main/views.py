@@ -45,10 +45,10 @@ def showcase_data(request,id):
 	return render(request, 'showcase_imgs.html',{'event_imgs':event_imgs,'event':event})
 
 # view for Subscription Plans
-def price(request):
-	price=models.SubPlan.objects.all()
-	dfeatures=models.SubPlanFeature.objects.distinct('title')
-	return render(request, 'costs.html',{'plans':price,'dfeatures':dfeatures})
+def cost(request):
+	cost=models.SubPlan.objects.all()
+	amenities=models.SubPlanFeature.objects.distinct('title')
+	return render(request, 'costs.html',{'plans':cost,'dfeatures':amenities})
 
 def newUser(request):
 	msg=None
@@ -63,30 +63,30 @@ def newUser(request):
 
 # view for  User Dashboard implementation starts here
 def user_dashboard(request):
-	my_trainer=models.AssignSubscriber.objects.get(user=request.user)
-	current_plan=models.Members.objects.get(user=request.user)
-	enddate=current_plan.register_date+timedelta(days=current_plan.plan.validity_days)
+	allocatedTrainer=models.AssignSubscriber.objects.get(user=request.user)
+	subscribedPlan=models.Members.objects.get(user=request.user)
+	expiryDate=subscribedPlan.register_date+timedelta(days=subscribedPlan.plan.validity_days)
 
 	# for  Notification
-	data=models.Notify.objects.all().order_by('-id')
-	notifStatus=False
+	notificationData=models.Notifications.objects.all().order_by('-id')
+	notificationStatus=False
 	jsonData=[]
 	totalUnread=0
-	for d in data:
+	for data in notificationData:
 		try:
-			notifStatusData=models.NotifUserStatus.objects.filter(user=request.user,notif=d).first()
-			if notifStatusData:
-				notifStatus=True
+			notificationStatusData=models.NotifUserStatus.objects.filter(user=request.user,notif=data).first()
+			if notificationStatusData:
+				notificationStatus=True
 		except models.NotifUserStatus.DoesNotExist:
-			notifStatus=False
-		if not notifStatus:
+			notificationStatus=False
+		if not notificationStatus:
 			totalUnread=totalUnread+1
 
 	return render(request, 'user/dashboard.html',{
-		'current_plan':current_plan,
-		'my_trainer':my_trainer,
+		'subscribedPlan':subscribedPlan, 
+		'allocatedTrainer':allocatedTrainer,
 		'total_unread':totalUnread,
-		'enddate':enddate
+		'expiryDate':expiryDate
 	})
 
 # view for user messages
@@ -96,19 +96,19 @@ def user_msgs(request):
 
 
 # view for  Edit form
-def update_profile(request):
-	msg=None
+def modify_profileData(request):
+	message=None
 	if request.method=='POST':
-		form=forms.ProfileForm(request.POST,instance=request.user)
-		if form.is_valid():
-			form.save()
-			msg='Data has been saved'
-	form=forms.ProfileForm(instance=request.user)
-	return render(request, 'user/update-profile.html',{'form':form,'msg':msg})
+		profileForm=forms.updateProfileForm(request.POST,instance=request.user)
+		if profileForm.is_valid():
+			profileForm.save()
+			message='Data has been saved'
+	profileForm=forms.updateProfileForm(instance=request.user)
+	return render(request, 'user/modifyProfileData.html',{'profileForm':profileForm,'message':message})
 
 # view for trainer login page
 def trainerlogin(request):
-	msg=''
+	message=''
 	if request.method=='POST':
 		username=request.POST['username']
 		password=request.POST['password']
@@ -119,9 +119,9 @@ def trainerlogin(request):
 			request.session['trainerid']=trainer.id
 			return redirect('/trainer_dashboard')
 		else:
-			msg='Invalid Credentials!!'
+			message='Invalid Credentials!!'
 	form=forms.TrainerLoginForm
-	return render(request, 'trainer/trainer_login.html',{'form':form,'msg':msg})
+	return render(request, 'trainer/trainer_login.html',{'form':form,'message':message})
 
 # view for  TrainerLogout
 def trainerlogout(request):
@@ -147,12 +147,12 @@ def trainer_profile(request):
 
 # view for Notifications
 def notification(request):
-	data=models.Notify.objects.all().order_by('-id')
+	data=models.Notifications.objects.all().order_by('-id')
 	return render(request,'notification.html',{'data':data})
 
 # view for get All Notifications
 def get_notification(request):
-	data=models.Notify.objects.all().order_by('-id')
+	data=models.Notifications.objects.all().order_by('-id')
 	notifStatus=False
 	jsonData=[]
 	totalUnread=0
@@ -167,7 +167,7 @@ def get_notification(request):
 			totalUnread=totalUnread+1
 		jsonData.append({
 				'pk':d.id,
-				'notify_detail':d.notify_detail,
+				'notification_detail':d.notification_detail,
 				'notifStatus':notifStatus
 			})
 	# view for  jsonData=serializers.serialize('json', data)
@@ -176,7 +176,7 @@ def get_notification(request):
 # view for  Mark Read By user
 def mark_read_notif(request):
 	notif=request.GET['notif']
-	notif=models.Notify.objects.get(pk=notif)
+	notif=models.Notifications.objects.get(pk=notif)
 	user=request.user
 	models.NotifUserStatus.objects.create(notif=notif,user=user,status=True)
 	return JsonResponse({'bool':True})

@@ -177,17 +177,20 @@ class Trainer(models.Model):
 			return 'no-image'
 
 # Notifications Json Response Via Ajax
-class Notify(models.Model):
-	notify_detail=models.TextField()
-	read_by_user=models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
-	read_by_trainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True,blank=True)
+class Notifications(models.Model):
+	notification_detail=models.TextField()
+	userRead=models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
+	trainerRead=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True,blank=True)
+
+	class Meta:
+		verbose_name_plural='Notification'
 
 	def __str__(self):
-		return str(self.notify_detail)
+		return str(self.notification_detail)
 
 # Model to mark as read notification by user
 class NotifUserStatus(models.Model):
-	notif=models.ForeignKey(Notify, on_delete=models.CASCADE)
+	notif=models.ForeignKey(Notifications, on_delete=models.CASCADE)
 	user=models.ForeignKey(User, on_delete=models.CASCADE)
 	status=models.BooleanField(default=False)
 

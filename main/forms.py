@@ -13,7 +13,7 @@ class newUser(UserCreationForm):
 		model=User
 		fields=('first_name','last_name','email','username','password1','password2')
 
-class ProfileForm(UserChangeForm):
+class updateProfileForm(UserChangeForm):
 	class Meta:
 		model=User
 		fields=('first_name','last_name','email','username')

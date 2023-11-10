@@ -9,12 +9,12 @@ urlpatterns=[
     path('query',views.query,name='query'),
     path('showcase',views.showcase,name='showcase'),
     path('showcase_data/<int:id>',views.showcase_data,name='showcase_data'),
-    path('price',views.price,name='price'),
+    path('cost',views.cost,name='cost'),
     path('accounts/newUser',views.newUser,name='newUser'),
     path('reach_us',views.reach_us,name='reach_us'),
     # User Dashboard implementations starts here
     path('user-dashboard',views.user_dashboard,name='user_dashboard'),
-    path('update-profile',views.update_profile,name='update_profile'),
+    path('modify_profileData',views.modify_profileData,name='modify_profileData'),
     #Trainer Login
     path('trainerlogin',views.trainerlogin,name='trainerlogin'),
     path('trainerlogout',views.trainerlogout,name='trainerlogout'),

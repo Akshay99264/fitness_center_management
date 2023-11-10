@@ -53,9 +53,9 @@ class TrainerAdmin(admin.ModelAdmin):
 admin.site.register(models.Trainer,TrainerAdmin)
 
 
-class NotifyAdmin(admin.ModelAdmin):
-	list_display=('notify_detail','read_by_user','read_by_trainer')
-admin.site.register(models.Notify,NotifyAdmin)
+class NotificationsAdmin(admin.ModelAdmin):
+	list_display=('notification_detail','userRead','trainerRead')
+admin.site.register(models.Notifications,NotificationsAdmin)
 
 class NotifUserStatusAdmin(admin.ModelAdmin):
 	list_display=('notif','user','status')

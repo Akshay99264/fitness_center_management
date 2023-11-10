@@ -1,9 +1,10 @@
 <div class="list-group">
 	<a href="{% url 'user_dashboard' %}" class="list-group-item {% if request.path == '/user-dashboard' %} active {% endif %}">Dashboard</a>
-	<a href="{% url 'update_profile' %}" class="list-group-item {% if request.path == '/update-profile' %} active {% endif %}">Profile</a>
+	<a href="{% url 'modify_profileData' %}" class="list-group-item {% if request.path == '/modify_profileData' %} active {% endif %}">Profile</a>
 	<a href="{% url 'password_change' %}" class="list-group-item {% if request.path == '/accounts/password_change/' %} active {% endif %}">Change Password</a>
 	<a href="{% url 'notification' %}" class="list-group-item {% if request.path == '/notifs' %} active {% endif %}">Notifications <span class="float-end badge bg-info mt-1">{{total_unread}}</span></a>
-	<a href="{% url 'user_messages' %}" class="list-group-item">Messages<span class="float-end badge bg-info mt-1">123</span></a>
+	<a href="{% url 'user_messages' %}" class="list-group-item">Messages <span class="badge bg-primary totalunread">{{msgs.count}}</span>
+		<span class="ajaxRes"></span></a>
 	<a  href="{% url 'updateToTrainer' %}" class="list-group-item {% if request.path == '/updateToTrainer' %} active {% endif %}">Update to Trainer</a>
 	
 </div>
