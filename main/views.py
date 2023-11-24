@@ -130,7 +130,10 @@ def trainerlogout(request):
 
 # view for  Trainer Dashboard
 def trainer_dashboard(request):
-	return render(request,'trainer/trainer_dashboard.html')
+	trainer=models.Trainer.objects.get(pk=request.session['trainerid'])
+	trainer_subs=models.AssignSubscriber.objects.filter(trainer=trainer).order_by('-id')
+	trainer_pays=models.TrainerSalary.objects.filter(trainer=trainer).order_by('-id')	
+	return render(request,'trainer/trainer_dashboard.html',{'trainer_subs':trainer_subs ,'trainer_pays':trainer_pays})
 
 # view for  Trainer Profile
 def trainer_profile(request):
@@ -181,12 +184,6 @@ def mark_read_notif(request):
 	models.NotifUserStatus.objects.create(notif=notif,user=user,status=True)
 	return JsonResponse({'bool':True})
 
-# view for  Trainer Subscribers
-def trainer_subscribers(request):
-	trainer=models.Trainer.objects.get(pk=request.session['trainerid'])
-	trainer_subs=models.AssignSubscriber.objects.filter(trainer=trainer).order_by('-id')
-	return render(request,'trainer/trainer_subscribers.html',{'trainer_subs':trainer_subs})
-
 # view for  Trainer Payments
 def trainer_payments(request):
 	trainer=models.Trainer.objects.get(pk=request.session['trainerid'])
@@ -233,7 +230,13 @@ def updateToUser(request):
 			message='update has been sent'
 		else:
 			message='Invalid update'
-	form=forms.updateUserForm	
+	queryset = models.AssignSubscriber.objects.filter(trainer=trainer)
+	# userToUpdate = forms.forms.ModelMultipleChoiceField(queryset=queryset)
+	form=forms.updateUserForm()
+	# print(userToUpdate)
+	# print("***********",form.fields)
+	form.fields['updateToUser'].queryset = queryset
+	# breakpoint()
 	return render(request,'updateToUser.html',{'form':form,'message':message})
 
 # view for  update trainer
@@ -249,7 +252,10 @@ def updateToTrainer(request):
 			message='update has been sent'
 		else:
 			message='Invalid update'
-	form=forms.updateTrainerForm	
+	form=forms.updateTrainerForm()
+	queryset = models.AssignSubscriber.objects.filter(user=request.user).first()
+	form.fields['updateToTrainer'].initial = queryset.trainer.username
+
 	return render(request,'updateToTrainer.html',{'form':form,'message':message})
 
 def reach_us(request):

@@ -31,26 +31,26 @@
     </main>
     <!-- End -->
 
-<script>
-	const webSocket = new WebSocket(
-		'ws://'
-		+ window.location.host
-		+ '/ws/notifications'
-	);
-
-	webSocket.onopen=function(event){
-		webSocket.send(JSON.stringify({
-			'message': 'From Client'
-		}));
-	}
-
-	webSocket.onmessage=function(event){
-		console.log('Received');
-	}
-
-	webSocket.onclose=function(event){
-		console.log('Closed');
-	}
-
-</script>
+<!--<script>
+//	const webSocket = new WebSocket(
+//		'ws://'
+//		+ window.location.host
+//		+ '/ws/notifications'
+//	);
+//
+//	webSocket.onopen=function(event){
+//		webSocket.send(JSON.stringify({
+//			'message': 'From Client'
+//		}));
+//	}
+//
+//	webSocket.onmessage=function(event){
+//		console.log('Received');
+//	}
+//
+//	webSocket.onclose=function(event){
+//		console.log('Closed');
+//	}
+//
+//</script> <-->
 {% endblock %}

@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-# slideShow
+# slideShow 
 class SlideShow(models.Model):
 	img=models.ImageField(upload_to="slideShow/")
 	alt_text=models.CharField(max_length=150)
@@ -20,7 +20,7 @@ class SlideShow(models.Model):
 	def image_tag(self):
 		return mark_safe('<img src="%s" width="80" />' % (self.img.url))
 
-# Create your models here.
+# Model for different services details
 class ourOfferings(models.Model):
 	title=models.CharField(max_length=150)
 	detail=models.TextField()
@@ -30,7 +30,7 @@ class ourOfferings(models.Model):
 		verbose_name_plural='ourOfferings'
 
 	def __str__(self):
-		return self.alt_text
+		return self.title
 
 	def image_tag(self):
 		return mark_safe('<img src="%s" width="80" />' % (self.img.url))
@@ -45,7 +45,7 @@ class Page(models.Model):
 	def __str__(self):
 		return self.label
 
-#FAQ
+#Freqently asked questions model
 class Faq(models.Model):
 	question=models.TextField()
 	answer=models.TextField()
@@ -81,7 +81,7 @@ class FunEvents(models.Model):
 	def image_tag(self):
 		return mark_safe('<img src="%s" width="80" />' % (self.image.url))
 
-#gallery image
+#gallery images model
 class EventImages(models.Model):
 	event=models.ForeignKey(FunEvents,on_delete=models.CASCADE,null=True)
 	detail=models.CharField(max_length=150)
@@ -119,7 +119,7 @@ class SubPlanFeature(models.Model):
 
 
 
-# Subscriber
+# Subscriber or gym member
 class Subscriber(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
 	mobile=models.CharField(max_length=20)
@@ -140,7 +140,7 @@ def create_subscriber(sender,instance,created,**kwrags):
 	if created:
 		Subscriber.objects.create(user=instance)
 
-# Subscription
+# Subscription User
 class Members(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 	plan=models.ForeignKey(SubPlan, on_delete=models.CASCADE,null=True)
@@ -150,7 +150,7 @@ class Members(models.Model):
 	class Meta:
 		verbose_name_plural='Members'
 
-#Trainer
+#Trainer Model
 class Trainer(models.Model):
 	full_name=models.CharField(max_length=100)
 	username=models.CharField(max_length=100,null=True)
@@ -274,7 +274,7 @@ class UserMsg(models.Model):
 		verbose_name_plural='UserMessages'
 
 
-# send update
+# send updates
 class userTrainerUpdate(models.Model):
 	updateToTrainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True,related_name='updateToTrainer')
 	updateToUser=models.ForeignKey(User, on_delete=models.CASCADE,null=True,related_name='updateToUser')
