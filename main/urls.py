@@ -15,7 +15,7 @@ urlpatterns=[
     # User Dashboard implementations starts here
     path('user-dashboard',views.user_dashboard,name='user_dashboard'),
     path('modify_profileData',views.modify_profileData,name='modify_profileData'),
-    #Trainer Login
+    #Trainer Login urls
     path('trainerlogin',views.trainerlogin,name='trainerlogin'),
     path('trainerlogout',views.trainerlogout,name='trainerlogout'),
     path('trainer_dashboard',views.trainer_dashboard,name='trainer_dashboard'),
@@ -24,11 +24,11 @@ urlpatterns=[
     path('trainer_payments',views.trainer_payments,name='trainer_payments'),
     path('passwordChange_trainer',views.passwordChange_trainer,name='passwordChange_trainer'),
     path('trainer_notifications',views.trainer_notifications,name='trainer_notifications'),
-    #Notifications
+    #Notifications related urls
     path('notification',views.notification,name='notification'),
     path('get_notification',views.get_notification,name='get_notification'),
     path('mark_read_notif',views.mark_read_notif,name='mark_read_notif'),
-    # Messages
+    # Messages related urls
 	path('messages',views.trainer_msgs,name='messages'),
     path('user_messages',views.user_msgs,name='user_messages'),
     path('updateToUser',views.updateToUser,name='updateToUser'),

@@ -56,16 +56,22 @@ def newUser(request):
 		newForm=forms.newUser(request.POST)
 		if newForm.is_valid():
 			newForm.save()
-			msg='Thank you for register.'
+			msg='Registration Successfull.'
+			return redirect('login')
+		else:
+			msg='Something Went Wrong!'
 	newForm=forms.newUser
 	return render(request, 'registration/newUser.html',{'form':newForm,'msg':msg})
 
 
 # view for  User Dashboard implementation starts here
 def user_dashboard(request):
-	allocatedTrainer=models.AssignSubscriber.objects.get(user=request.user)
-	subscribedPlan=models.Members.objects.get(user=request.user)
-	expiryDate=subscribedPlan.register_date+timedelta(days=subscribedPlan.plan.validity_days)
+	allocatedTrainer=models.AssignSubscriber.objects.filter(user=request.user).first()
+	subscribedPlan=models.Members.objects.filter(user=request.user).first()
+	expiryDate=None
+	if subscribedPlan:
+		expiryDate=subscribedPlan.register_date+timedelta(days=subscribedPlan.plan.validity_days)
+	
 
 	# for  Notification
 	notificationData=models.Notifications.objects.all().order_by('-id')
@@ -91,7 +97,7 @@ def user_dashboard(request):
 
 # view for user messages
 def user_msgs(request):
-	data=models.UserMsg.objects.all().order_by('-id')
+	data=models.UserMsg.objects.filter(user=request.user).order_by('-id')
 	return render(request, 'user/messages.html',{'msgs':data})
 
 
@@ -214,7 +220,8 @@ def passwordChange_trainer(request):
 
 # view for  Trainer Messages
 def trainer_msgs(request):
-	data=models.TrainerMsg.objects.all().order_by('-id')
+	t_id=request.session['trainerid']
+	data=models.TrainerMsg.objects.filter(trainer_id=t_id).order_by('-id')
 	return render(request, 'trainer/messages.html',{'msgs':data})
 
 # view for  update user
@@ -227,6 +234,12 @@ def updateToUser(request):
 			updateForm=form.save(commit=False)
 			updateForm.updateFromTrainer=trainer
 			updateForm.save()
+			msg = models.UserMsg()
+			msg.trainer=trainer
+			msg.user_id=request.POST['updateToUser']
+			msg.message = request.POST['updateMsg']
+			msg.save()
+			# msg = models.UserMsg()
 			message='update has been sent'
 		else:
 			message='Invalid update'
@@ -244,17 +257,29 @@ def updateToTrainer(request):
 	member=request.user
 	message=''
 	if request.method=='POST':
+		print(request.POST)
 		form=forms.updateTrainerForm(request.POST)
 		if form.is_valid():
 			updateForm=form.save(commit=False)
 			updateForm.updateFromUser=member
 			updateForm.save()
+			msg = models.TrainerMsg()
+			msg.user=request.user 
+			msg.trainer_id=request.POST['updateToTrainer']
+			msg.message = request.POST['updateMsg']
+			msg.save()
+			# msg = models.UserMsg()
 			message='update has been sent'
 		else:
 			message='Invalid update'
 	form=forms.updateTrainerForm()
-	queryset = models.AssignSubscriber.objects.filter(user=request.user).first()
-	form.fields['updateToTrainer'].initial = queryset.trainer.username
+	assign_subscriber = models.AssignSubscriber.objects.filter(user=request.user)
+	if assign_subscriber:
+		assign_subscriber=assign_subscriber.first()
+		queryset = models.Trainer.objects.filter(id=assign_subscriber.id)
+	else:
+		queryset=assign_subscriber
+	form.fields['updateToTrainer'].queryset = queryset
 
 	return render(request,'updateToTrainer.html',{'form':form,'message':message})
 

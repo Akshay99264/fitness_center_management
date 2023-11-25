@@ -255,7 +255,7 @@ class NotifTrainerStatus(models.Model):
 		verbose_name_plural='TrainerNotificationStatus'
 
 
-# SubscriberMsg
+# Trainer messages model
 class TrainerMsg(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 	trainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True)
@@ -264,7 +264,7 @@ class TrainerMsg(models.Model):
 	class Meta:
 		verbose_name_plural='TrainerMessages'
 
-# SubscriberMsg
+# User messages model
 class UserMsg(models.Model):
 	user=models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 	trainer=models.ForeignKey(Trainer, on_delete=models.CASCADE,null=True)

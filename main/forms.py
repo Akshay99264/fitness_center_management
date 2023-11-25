@@ -57,7 +57,7 @@ class updateUserForm(forms.ModelForm):
 
 #form for update to both trainer and user
 class updateTrainerForm(forms.ModelForm):
-	updateToTrainer = forms.CharField(max_length=250, required=False, disabled=True)
+	
 	class Meta:
 		model=models.userTrainerUpdate
 		fields=('updateToTrainer','updateMsg','updateFromUser')
