@@ -1,0 +1,21 @@
+{% extends 'header_footer.html' %}
+{% block content %}
+    <!-- Main Start -->
+    <main>
+		<!-- Services -->
+		<section class="container my-4">
+			<h1 class="text-center mb-4 section-heading border-bottom pb-2">{{event.label}} Images</h1>
+			<div class="row">
+				{% for eventimg in event_imgs %}
+				<div class="col-md-4 mb-4">
+					<div class="card">
+					  <img src="{{eventimg.image.url}}" class="card-img-top" alt="{{eventimg.detail}}">
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+		<!-- End -->
+    </main>
+    <!-- End -->
+{% endblock %}
